@@ -27,7 +27,7 @@ O projeto é estruturado em três camadas lógicas principais:
    - `Pacote.java`: Define o contrato de empacotamento da comunicação.
 3. **Camada de Aplicação:**
    - `ServidorTelecom.java`: Mantém o estado da aplicação em memória (via `ConcurrentHashMap`) e gerencia as conexões.
-   - `ClienteTelecom.java`: Interface CLI interativa.
+   - `ClienteTelecom.java`: Interface interativa.
 
 ---
 
