@@ -17,7 +17,6 @@ public class ServidorTelecom {
 
     public static void main(String[] args) {
         System.out.println("=== SERVIDOR TELECOM MULTI-THREADED INICIADO ===");
-        System.out.println("[INFO] Aguardando conexões na porta TCP " + PORTA_TCP);
         
         try (ServerSocket serverSocket = new ServerSocket(PORTA_TCP)) {
             while (true) {
