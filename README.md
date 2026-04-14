@@ -31,7 +31,7 @@ O projeto é estruturado em três camadas lógicas principais:
 
 ---
 
-# Guia Interno: Funções Principais e Arquitetura
+## Guia Interno: Funções Principais e Arquitetura
 
 Este documento detalha o funcionamento interno dos principais métodos e classes do Sistema Telecom. A arquitetura foi desenhada para não depender de bibliotecas de alto nível de serialização, provando o domínio sobre fluxos de bytes, concorrência e redes.
 
