@@ -3,8 +3,10 @@ import java.net.*;
 import java.util.Scanner;
 
 public class ClienteTelecom {
-    private static final String HOST = "10.13.136.119";
+    //private static final String HOST = "10.13.136.119";
+    //private static final String HOST = "10.10.245.83";
     //private static final String HOST = "localhost";
+    private static final String HOST = "10.163.102.119";
     private static final int PORTA_TCP = 8080;
     private static final String GRUPO_MULTICAST = "230.0.0.1";
     private static final int PORTA_MULTICAST = 4446;
@@ -23,10 +25,10 @@ public class ClienteTelecom {
 
         int opcao = -1;
         while (opcao != 0) {
-            System.out.println("1. Registrar Reclamação (Unicast TCP)");
-            System.out.println("2. Consultar Protocolo (Unicast TCP)");
-            System.out.println("3. Login Administrador (Unicast TCP)");
-            if (isAdmin) System.out.println("4. Enviar Nota Informativa (Multicast UDP)");
+            System.out.println("1. Registrar Reclamação");
+            System.out.println("2. Consultar Protocolo");
+            System.out.println("3. Login Administrador");
+            if (isAdmin) System.out.println("4. Enviar Nota Informativa");
             System.out.println("0. Sair");
             System.out.print("Escolha: ");
             
@@ -89,19 +91,25 @@ public class ClienteTelecom {
         public void run() {
             try (MulticastSocket socket = new MulticastSocket(PORTA_MULTICAST)) {
                 InetAddress grupo = InetAddress.getByName(GRUPO_MULTICAST);
-                NetworkInterface nif = NetworkInterface.getByName("lo");
+                
+                InetAddress meuIP = InetAddress.getByName(HOST);
+                NetworkInterface nif = NetworkInterface.getByInetAddress(meuIP);
+                
                 SocketAddress enderecoGrupo = new InetSocketAddress(grupo, PORTA_MULTICAST);
+                
+                // Entra no grupo escutando a placa de rede do Wi-Fi
                 socket.joinGroup(enderecoGrupo, nif);
+                
                 byte[] buffer = new byte[2048];
 
                 while (true) {
                     DatagramPacket pacote = new DatagramPacket(buffer, buffer.length);
                     socket.receive(pacote);
                     String mensagem = new String(pacote.getData(), 0, pacote.getLength(), "UTF-8");
-                    System.out.println("\n\n[ALERTA MULTICAST UDP] " + mensagem + "\nEscolha: ");
+                    System.out.println("\n\n [ALERTA MULTICAST UDP] " + mensagem + "\nEscolha: ");
                 }
             } catch (IOException e) {
-                // Ignora erros silenciosos da thread de fundo
+                System.err.println("Erro na Thread UDP: " + e.getMessage()); 
             }
         }
     }
