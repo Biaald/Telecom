@@ -50,7 +50,7 @@ Esta classe atua como o "tradutor" entre o Cliente e o Servidor. Ela garante que
 
 * **`desempacotar(DataInputStream in)`**
   * **O que faz:** Lê os bytes que chegam do Socket e reconstrói o objeto `Pacote`.
-  * **A Proteção (Guard Rail):** Ele lê o tamanho do payload esperado. Se esse tamanho for absurdamente grande (ex: um ataque hacker ou erro de versão), ele bloqueia a alocação de memória e lança uma `IOException`, protegendo o servidor contra *Out-Of-Memory*. Em seguida, usa `readFully()` para garantir que nenhum byte fique para trás.
+  * **A Proteção (Guard Rail):** Ele lê o tamanho do payload esperado. Se esse tamanho for absurdamente grande, ele bloqueia a alocação de memória e lança uma `IOException`, protegendo o servidor contra *Out-Of-Memory*. Em seguida, usa `readFully()` para garantir que nenhum byte fique para trás.
 
 ---
 
