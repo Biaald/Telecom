@@ -105,6 +105,7 @@ A classe principal que rege a comunicação e o estado global da aplicação.
     2. Um `FileOutputStream` (escreve no disco rígido).
     3. Um `Socket.getOutputStream()` (escreve pela placa de rede).
   * O código do `LinhaOutputStream` não muda uma vírgula para lidar com os três cenários, provando que a lógica está altamente desacoplada.
+    
   ** No terminal
     bash
     ```
