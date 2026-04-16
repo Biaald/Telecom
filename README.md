@@ -82,10 +82,8 @@ A classe principal que rege a comunicação e o estado global da aplicação.
   * **O que faz:** Comunicação em massa de um para muitos.
   * **Como funciona:** Em vez de usar a conexão TCP segura, ele empacota a mensagem num `DatagramPacket` e joga para o endereço IP do grupo Multicast (`230.0.0.1` na porta `4446`). Qualquer máquina da rede que estiver escutando esse grupo receberá a nota administrativa instantaneamente.
   * Para iniciar o servidor
-    bash
     ```
     java ServidorTelecom
-
 ---
 
 ## 4. A Interface do Cliente (`ClienteTelecom.java`)
@@ -98,10 +96,8 @@ A classe principal que rege a comunicação e o estado global da aplicação.
   * **O que faz:** Um "rádio" que fica ligado nos bastidores do cliente.
   * **Como funciona:** É uma *Daemon Thread* que usa `MulticastSocket.joinGroup()`. Ela fica rodando em loop infinito separada do menu principal do usuário. Quando um pacote UDP chega do servidor, ela interrompe a tela e imprime o alerta para o usuário.
   * Para iniciar o cliente
-    bash
     ```
     java ClienteTelecom
-
 ---
 
 ## 5. Bateria de Testes (`TestesStreams.java`)
@@ -114,6 +110,63 @@ A classe principal que rege a comunicação e o estado global da aplicação.
     3. Um `Socket.getOutputStream()` (escreve pela placa de rede).
   * O código do `LinhaOutputStream` não muda uma vírgula para lidar com os três cenários, provando que a lógica está altamente desacoplada.
   * No terminal
-    bash
     ```
     java TestesStreams
+---
+# Guia de Compilação e Execução
+
+Este documento detalha o passo a passo para compilar os códigos-fonte e rodar o Sistema de Telecomunicações em um ambiente local ou distribuído (múltiplos computadores).
+
+## Pré-requisitos
+- **Java Development Kit (JDK):** Versão 8 ou superior instalada.
+- **Terminal:** Acesso à linha de comando (Linux/bash, CMD ou PowerShell).
+
+---
+
+##  1. Configuração de Rede (Antes de Compilar)
+
+Se você for rodar o Servidor e o Cliente no **mesmo computador**, não precisa alterar nada (certifique-se de que a variável `HOST` está apontando para o seu IP local ou `localhost`).
+
+Se for rodar em **computadores diferentes**:
+1. No computador que será o **Servidor**, abra o terminal e descubra o IP da máquina (comando `ip a` no Linux ou `ipconfig` no Windows). Exemplo: `10.167.142.339`.
+2. No computador que será o **Cliente**, abra o arquivo `ClienteTelecom.java`.
+3. Altere a variável `HOST` para o IP exato do Servidor:
+   ```java
+   private static final String HOST = "10.167.142.339"; // Insira o IP do Servidor aqui
+
+## 2. Compilação
+Abra o terminal na pasta raiz onde estão todos os arquivos .java do projeto e execute o comando abaixo para compilar todas as classes de uma só vez:
+```
+javac *.java
+```
+Se não aparecer nenhuma mensagem, a compilação foi um sucesso e os arquivos `.class` foram gerados.
+
+## 3. Execução do Sistema Principal
+A ordem de execução é estrita: O Servidor deve nascer primeiro.
+
+**Passo A: Iniciar o Servidor**
+No computador principal, abra um terminal e inicie o nó central:
+```
+java ServidorTelecom
+```
+Aguarde a mensagem: `[INFO] Aguardando conexões na porta TCP`
+
+**asso B: Iniciar o Cliente**
+No mesmo computador (em outra aba do terminal) ou no computador secundário, inicie a interface do usuário:
+```
+java ClienteTelecom
+```
+## 4. Execução da Bateria de Testes (Serialização Customizada)
+O projeto contém um módulo independente para provar o funcionamento da desserialização customizada (**`LinhaOutputStream`** e **`LinhaInputStream`**) sem depender das classes principais.
+
+Para rodar os testes, garanta que o ServidorTelecom esteja DESLIGADO (para liberar a porta TCP de testes) e execute:
+```
+java TestesStreams
+```
+**O que deve acontecer?**
+
+**Teste I**: O console imprimirá bytes brutos de forma estruturada.
+
+**Teste II**: Um arquivo chamado linhas_teste.bin será criado na pasta do projeto.
+
+**Teste III**: Um mini-servidor subirá momentaneamente, enviará os dados via rede TCP local e os reconstruirá com sucesso na memória.
