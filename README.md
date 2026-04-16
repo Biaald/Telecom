@@ -135,7 +135,7 @@ Se for rodar em **computadores diferentes**:
    private static final String HOST = "10.167.142.339"; // Insira o IP do Servidor aqui
 
 ## 2. Compilação
-Abra o terminal na pasta raiz onde estão todos os arquivos .java do projeto e execute o comando abaixo para compilar todas as classes de uma só vez:
+Abra o terminal na pasta raiz onde estão todos os arquivos `.java` do projeto e execute o comando abaixo para compilar todas as classes de uma só vez:
 ```
 javac *.java
 ```
@@ -145,6 +145,7 @@ Se não aparecer nenhuma mensagem, a compilação foi um sucesso e os arquivos `
 A ordem de execução é estrita: O Servidor deve nascer primeiro.
 
 **Passo A: Iniciar o Servidor**
+
 No computador principal, abra um terminal e inicie o nó central:
 ```
 java ServidorTelecom
@@ -152,11 +153,13 @@ java ServidorTelecom
 Aguarde a mensagem: `[INFO] Aguardando conexões na porta TCP`
 
 **asso B: Iniciar o Cliente**
+
 No mesmo computador (em outra aba do terminal) ou no computador secundário, inicie a interface do usuário:
 ```
 java ClienteTelecom
 ```
 ## 4. Execução da Bateria de Testes (Serialização Customizada)
+
 O projeto contém um módulo independente para provar o funcionamento da desserialização customizada (**`LinhaOutputStream`** e **`LinhaInputStream`**) sem depender das classes principais.
 
 Para rodar os testes, garanta que o ServidorTelecom esteja DESLIGADO (para liberar a porta TCP de testes) e execute:
