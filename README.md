@@ -83,7 +83,7 @@ A classe principal que rege a comunicação e o estado global da aplicação.
   * **Como funciona:** Em vez de usar a conexão TCP segura, ele empacota a mensagem num `DatagramPacket` e joga para o endereço IP do grupo Multicast (`230.0.0.1` na porta `4446`). Qualquer máquina da rede que estiver escutando esse grupo receberá a nota administrativa instantaneamente.
   * Para iniciar o servidor
     bash
-    ´´´
+    ```
     java ServidorTelecom
 
 ---
@@ -99,7 +99,7 @@ A classe principal que rege a comunicação e o estado global da aplicação.
   * **Como funciona:** É uma *Daemon Thread* que usa `MulticastSocket.joinGroup()`. Ela fica rodando em loop infinito separada do menu principal do usuário. Quando um pacote UDP chega do servidor, ela interrompe a tela e imprime o alerta para o usuário.
   * Para iniciar o cliente
     bash
-    ´´´
+    ```
     java ClienteTelecom
 
 ---
